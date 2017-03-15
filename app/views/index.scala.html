@@ -1,0 +1,61 @@
+@(userForm: Form[models.UserFormData], users: Seq[models.User])(implicit request: RequestHeader)
+@main() {
+    <div class="container">
+        <h1>Phone Book</h1>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addModel">Add</button>
+        <div id="addModel" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Phone Book</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="user-data-form"  role="form" action='@routes.ApplicationController.addUser()' method="post" class="form-horizontal" align="center" autocomplete="off">
+                            <div class="form-group col-md-12">
+                                <input type="text" id="firstName" class="form-control" name="firstName" value="" placeholder="First Name" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="text" id="lastName" class="form-control" name="lastName" value="" placeholder="Last Name" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="tel" id="mobile" class="form-control" name="mobile" value="" placeholder="Mobile" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="email" id="email" class="form-control" name="email" value="" placeholder="E-Mail" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary ">Save</button>
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th colspan="2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(user <- users) {
+                <tr>
+                    <td>@user.firstName</td>
+                    <td>@user.lastName</td>
+                    <td>@user.mobile</td>
+                    <td>@user.email</td>
+                    <td><a href="#">Update</a></td>
+                    <td><a href="@routes.ApplicationController.deleteUser(user.id)">Delete</a> </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
